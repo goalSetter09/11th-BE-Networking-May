@@ -1,5 +1,9 @@
-package cotato.networking.weather_api.auth;
+package cotato.networking.weather_api.auth.controller;
 
+import cotato.networking.weather_api.auth.service.AuthService;
+import cotato.networking.weather_api.auth.dto.LoginRequest;
+import cotato.networking.weather_api.auth.dto.LoginResponse;
+import cotato.networking.weather_api.auth.dto.SignUpRequest;
 import cotato.networking.weather_api.common.response.ApiResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;

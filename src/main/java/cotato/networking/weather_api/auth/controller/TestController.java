@@ -1,4 +1,4 @@
-package cotato.networking.weather_api;
+package cotato.networking.weather_api.auth.controller;
 
 import cotato.networking.weather_api.common.response.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;

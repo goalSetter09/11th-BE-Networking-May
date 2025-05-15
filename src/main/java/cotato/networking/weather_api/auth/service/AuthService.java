@@ -1,11 +1,17 @@
-package cotato.networking.weather_api.auth;
+package cotato.networking.weather_api.auth.service;
 
+import cotato.networking.weather_api.auth.repository.AuthRepository;
+import cotato.networking.weather_api.auth.dto.LoginRequest;
+import cotato.networking.weather_api.auth.dto.LoginResponse;
+import cotato.networking.weather_api.auth.dto.SignUpRequest;
 import cotato.networking.weather_api.common.error.ErrorCode;
 import cotato.networking.weather_api.common.error.exception.AppException;
 import cotato.networking.weather_api.user.User;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,6 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AuthService {
 
+//    private final AuthenticationManager authenticationManager;
     private final AuthRepository authRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -50,7 +57,7 @@ public class AuthService {
         SecurityContextHolder.getContext().setAuthentication(authToken);
 
         session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
-                SecurityContextHolder.getContext());   // 확실히 저장
+                SecurityContextHolder.getContext());
 
         return new LoginResponse(user.getId());
     }

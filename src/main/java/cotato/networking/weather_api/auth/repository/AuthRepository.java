@@ -1,4 +1,4 @@
-package cotato.networking.weather_api.auth;
+package cotato.networking.weather_api.auth.repository;
 
 import cotato.networking.weather_api.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;

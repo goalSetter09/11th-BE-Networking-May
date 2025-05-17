@@ -21,8 +21,6 @@ public enum ErrorCode {
 	USER_NOT_FOUND(HttpStatus.NOT_FOUND, "A-001", "가입하지 않은 유저입니다."),
 	PASSWORD_NOT_MATCH(HttpStatus.NOT_FOUND, "A-002", "비밀번호가 일치하지 않습니다."),
 
-
-
 	;
 
 	private final HttpStatus status;

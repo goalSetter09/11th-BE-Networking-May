@@ -29,9 +29,9 @@ public class SwaggerConfig {
 			.in(SecurityScheme.In.COOKIE).name("JSESSIONID");
 
 		return new OpenAPI()
-				.addSecurityItem(new SecurityRequirement().addList("cookieAuth"))
-				.components(new Components().addSecuritySchemes("cookieAuth", cookieScheme))
-				.info(new Info().title("API Docs").version("v1"));
+			.addSecurityItem(new SecurityRequirement().addList("cookieAuth"))
+			.components(new Components().addSecuritySchemes("cookieAuth", cookieScheme))
+			.info(new Info().title("API Docs").version("v1"));
 	}
 
 	private Info apiInfo() {

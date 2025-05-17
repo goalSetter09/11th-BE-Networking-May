@@ -1,6 +1,7 @@
 package cotato.networking.weather_api.auth.repository;
 
 import cotato.networking.weather_api.user.User;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface AuthRepository extends JpaRepository<User, Long> {
 
-    Optional<User> findByLoginId(String loginId);
+	Optional<User> findByLoginId(String loginId);
 
-    boolean existsByLoginId(String loginId);
+	boolean existsByLoginId(String loginId);
 }

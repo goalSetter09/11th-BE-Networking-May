@@ -18,9 +18,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@EnableConfigurationProperties(value = {
-	SwaggerProperties.class
-})
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {

@@ -5,6 +5,8 @@ import cotato.networking.weather_api.auth.dto.LoginRequest;
 import cotato.networking.weather_api.auth.dto.LoginResponse;
 import cotato.networking.weather_api.auth.dto.SignUpRequest;
 import cotato.networking.weather_api.common.response.ApiResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +33,8 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ApiResponse<Void> logout(HttpSession session) {
-        authService.logout(session);
+    public ApiResponse<Void> logout(HttpServletRequest request , HttpServletResponse response) {
+        authService.logout(request, response);
         return ApiResponse.noContent();
     }
 

@@ -8,5 +8,5 @@ import java.util.List;
 @Getter
 @Builder(toBuilder = true)
 public class DustResponse {
-    private final List<DustDto> dustDtoList;
+	private final List<DustDto> dustDtoList;
 }

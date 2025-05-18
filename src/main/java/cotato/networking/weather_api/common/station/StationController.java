@@ -17,7 +17,7 @@ public class StationController {
 
 	@GetMapping()
 	public ApiResponse<StationDto> nearestStation(@RequestParam double lat,
-													@RequestParam double lon) {
-		return ApiResponse.ok(stationService.nearestStation(lat,lon));
+		@RequestParam double lon) {
+		return ApiResponse.ok(stationService.nearestStation(lat, lon));
 	}
 }

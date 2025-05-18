@@ -61,12 +61,12 @@ public class DustService {
 
 			// DTO 변환 후 리턴
 			return DustDto.builder()
-				.stationName((String) station.get("stationName"))
-				.dataTime((String) station.get("dataTime"))
-				.pm10Value((String) station.get("pm10Value"))
-				.pm10Grade((String) station.get("pm10Grade"))
-				.pm25Value((String) station.get("pm25Value"))
-				.pm25Grade((String) station.get("pm25Grade"))
+				.stationName((String)station.get("stationName"))
+				.dataTime((String)station.get("dataTime"))
+				.pm10Value((String)station.get("pm10Value"))
+				.pm10Grade((String)station.get("pm10Grade"))
+				.pm25Value((String)station.get("pm25Value"))
+				.pm25Grade((String)station.get("pm25Grade"))
 				.build();
 
 		} catch (AppException e) {

@@ -40,15 +40,15 @@ public class StationService {
 				.build(true)
 				.toUri();
 
-			Map<?,?> json = restTemplate.getForObject(uri, Map.class);
-			Map<?,?> body = (Map<?,?>) ((Map<?,?>) json.get("response")).get("body");
-			Map<?,?> first = ((List<Map<?,?>>) body.get("items")).get(0);
+			Map<?, ?> json = restTemplate.getForObject(uri, Map.class);
+			Map<?, ?> body = (Map<?, ?>)((Map<?, ?>)json.get("response")).get("body");
+			Map<?, ?> first = ((List<Map<?, ?>>)body.get("items")).get(0);
 
 			return StationDto.builder()
-				.stationName((String) first.get("stationName"))
-				.stationCode((String) first.get("stationCode"))
-				.address((String) first.get("addr"))
-				.distanceTm(((Number) first.get("tm")).doubleValue())
+				.stationName((String)first.get("stationName"))
+				.stationCode((String)first.get("stationCode"))
+				.address((String)first.get("addr"))
+				.distanceTm(((Number)first.get("tm")).doubleValue())
 				.build();
 		} catch (AppException e) {
 			log.error("Exception : {}", e.getStackTrace()[0]);

@@ -16,6 +16,11 @@ public enum ErrorCode {
 
 	// Server
 	INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "S-001", "서버 내부에서 에러가 발생하였습니다."),
+	ENCODING_FAILURE(HttpStatus.INTERNAL_SERVER_ERROR, "S-002", "한글 인코딩에 실패했습니다."),
+
+	DUST_FETCH_FAILURE(HttpStatus.INTERNAL_SERVER_ERROR, "S-003", "미세먼지 정보를 불러오지 못했습니다."),
+	STATION_FETCH_FAILURE(HttpStatus.INTERNAL_SERVER_ERROR, "S-004", "관측소 정보를 불러오지 못했습니다."),
+	STATION_NOT_FOUND(HttpStatus.NOT_FOUND, "S-005", "관측소를 찾지 못했습니다."),
 	;
 
 	private final HttpStatus status;

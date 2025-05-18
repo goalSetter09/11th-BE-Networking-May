@@ -41,6 +41,10 @@ dependencies {
 	implementation 'org.locationtech.proj4j:proj4j:1.1.1'
 
 	implementation 'org.slf4j:slf4j-api:2.1.0-alpha1'
+
+	// spring security
+	implementation("org.springframework.boot:spring-boot-starter-security")
+    testImplementation("org.springframework.security:spring-security-test")
 }
 
 tasks.named('test') {

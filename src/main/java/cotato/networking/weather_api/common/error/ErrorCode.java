@@ -21,6 +21,11 @@ public enum ErrorCode {
 	DUST_FETCH_FAILURE(HttpStatus.INTERNAL_SERVER_ERROR, "S-003", "미세먼지 정보를 불러오지 못했습니다."),
 	STATION_FETCH_FAILURE(HttpStatus.INTERNAL_SERVER_ERROR, "S-004", "관측소 정보를 불러오지 못했습니다."),
 	STATION_NOT_FOUND(HttpStatus.NOT_FOUND, "S-005", "관측소를 찾지 못했습니다."),
+
+	// Auth
+	USER_ALREADY_EXISTS(HttpStatus.CONFLICT, "A-001", "이미 존재하는 아이디입니다."),
+	USER_NOT_FOUND(HttpStatus.NOT_FOUND, "A-002", "가입하지 않은 유저입니다."),
+	PASSWORD_NOT_MATCH(HttpStatus.NOT_FOUND, "A-003", "비밀번호가 일치하지 않습니다."),
 	;
 
 	private final HttpStatus status;

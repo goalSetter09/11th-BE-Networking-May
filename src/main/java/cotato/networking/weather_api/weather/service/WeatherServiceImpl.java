@@ -28,7 +28,7 @@ public class WeatherServiceImpl implements WeatherService {
 	private final WeatherMapper weatherMapper;
 
 	@Override
-	public Mono<WeatherResponse> getWeatherData(double lat, double lon) {
+	public Mono<WeatherResponse> getWeatherData(final double lat, final double lon) {
 		return weatherWebClient.get()
 			.uri(uriBuilder -> uriBuilder
 				.path(weatherApiProperties.getPath())

@@ -21,6 +21,11 @@ public enum ErrorCode {
 	USER_ALREADY_EXISTS(HttpStatus.CONFLICT, "A-001", "이미 존재하는 아이디입니다."),
 	USER_NOT_FOUND(HttpStatus.NOT_FOUND, "A-002", "가입하지 않은 유저입니다."),
 	PASSWORD_NOT_MATCH(HttpStatus.NOT_FOUND, "A-003", "비밀번호가 일치하지 않습니다."),
+
+	// Weather API
+	WEATHER_API_AUTH_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "W-001", "날씨 API 키 인증 실패"),
+	WEATHER_API_BAD_REQUEST(HttpStatus.BAD_REQUEST, "W-002", "잘못된 날씨 API 요청 파라미터"),
+	WEATHER_API_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "W-003", "날씨 서비스 오류"),
 	;
 
 	private final HttpStatus status;

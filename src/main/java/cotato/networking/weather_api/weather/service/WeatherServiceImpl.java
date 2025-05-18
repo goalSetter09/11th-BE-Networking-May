@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
+import cotato.networking.weather_api.common.error.ErrorCode;
+import cotato.networking.weather_api.common.error.exception.AppException;
 import cotato.networking.weather_api.common.property.property.WeatherApiProperties;
 import cotato.networking.weather_api.weather.dto.external.OpenWeatherResponse;
 import cotato.networking.weather_api.weather.dto.response.WeatherResponse;
@@ -20,7 +22,6 @@ import cotato.networking.weather_api.weather.dto.response.WeatherResponse.Curren
 import cotato.networking.weather_api.weather.dto.response.WeatherResponse.DailyWeather;
 import cotato.networking.weather_api.weather.dto.response.WeatherResponse.HourlyWeather;
 import cotato.networking.weather_api.weather.dto.response.WeatherResponse.Weather;
-import cotato.networking.weather_api.weather.exception.WeatherApiException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,8 +41,6 @@ public class WeatherServiceImpl implements WeatherService {
 
 	@Override
 	public Mono<WeatherResponse> getWeatherData(double lat, double lon) {
-		validateCoordinates(lat, lon);
-
 		return weatherWebClient.get()
 			.uri(uriBuilder -> uriBuilder
 				.path(weatherApiProperties.getPath())
@@ -57,11 +56,11 @@ public class WeatherServiceImpl implements WeatherService {
 			.onErrorMap(WebClientResponseException.class, e -> {
 				log.error("날씨 API 호출 실패: {}", e.getMessage());
 				if (e.getStatusCode() == HttpStatus.UNAUTHORIZED) {
-					return new WeatherApiException("API 키 인증 실패");
+					return new AppException(ErrorCode.WEATHER_API_AUTH_ERROR);
 				} else if (e.getStatusCode().is4xxClientError()) {
-					return new WeatherApiException("잘못된 요청 파라미터");
+					return new AppException(ErrorCode.WEATHER_API_BAD_REQUEST);
 				} else {
-					return new WeatherApiException("날씨 서비스 오류: " + e.getMessage());
+					return new AppException(ErrorCode.WEATHER_API_SERVER_ERROR);
 				}
 			});
 	}
@@ -167,14 +166,5 @@ public class WeatherServiceImpl implements WeatherService {
 		BigDecimal bd = new BigDecimal(value);
 		bd = bd.setScale(1, RoundingMode.HALF_UP);
 		return bd.doubleValue();
-	}
-
-	private void validateCoordinates(double lat, double lon) {
-		if (lat < -90 || lat > 90) {
-			throw new IllegalArgumentException("위도는 -90에서 90 사이여야 합니다.");
-		}
-		if (lon < -180 || lon > 180) {
-			throw new IllegalArgumentException("경도는 -180에서 180 사이여야 합니다.");
-		}
 	}
 }

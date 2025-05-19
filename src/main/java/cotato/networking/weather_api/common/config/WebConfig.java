@@ -1,4 +1,4 @@
-package cotato.networking.weather_api.config;
+package cotato.networking.weather_api.common.config;
 
 import java.util.List;
 

@@ -1,0 +1,32 @@
+package cotato.networking.weather_api.location.service;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import cotato.networking.weather_api.location.domain.LocationEntity;
+import cotato.networking.weather_api.location.dto.request.LocationRequest;
+import cotato.networking.weather_api.location.repository.LocationRepository;
+import cotato.networking.weather_api.user.User;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Service
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+@Transactional(readOnly = true)
+public class LocationService {
+
+	private final LocationRepository locationRepository;
+
+	@Transactional
+	public Long addLocation(LocationRequest request, User user) {
+		LocationEntity locationEntity = LocationEntity.builder()
+			.locationName(request.locationName())
+			.latitude(request.latitude())
+			.longitude(request.longitude())
+			.userId(user.getId())
+			.build();
+		return locationRepository.save(locationEntity).getLocationId();
+	}
+}

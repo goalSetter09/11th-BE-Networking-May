@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import cotato.networking.weather_api.common.error.ErrorCode;
 import cotato.networking.weather_api.common.error.exception.AppException;
 import cotato.networking.weather_api.location.domain.LocationEntity;
+import cotato.networking.weather_api.location.dto.request.LocationPinRequest;
 import cotato.networking.weather_api.location.dto.request.LocationRequest;
 import cotato.networking.weather_api.location.dto.response.LocationGetResponse;
 import cotato.networking.weather_api.location.repository.LocationRepository;
@@ -41,5 +42,17 @@ public class LocationService {
 	public Page<LocationGetResponse> getLocations(User user, Pageable pageable) {
 		return locationRepository.findAllByUserIdOrderByLocationIdDesc(user.getId(), pageable)
 			.map(LocationGetResponse::from);
+	}
+
+	@Transactional
+	public void pinLocation(LocationPinRequest request, User user) {
+		LocationEntity locationEntity = locationRepository.findById(request.locationId())
+			.orElseThrow(() -> new AppException(ErrorCode.LOCATION_NOT_FOUND_EXCEPTION));
+
+		if (!locationEntity.getUserId().equals(user.getId())) {
+			throw new AppException(ErrorCode.LOCATION_ACCESS_DENIED_EXCEPTION);
+		}
+
+		locationEntity.updatePinStatus(request.isPinned());
 	}
 }

@@ -33,11 +33,19 @@ public class LocationEntity {
 	@Column(name = "user_id", nullable = false)
 	private Long userId;
 
+	@Column(name = "is_pinned", nullable = false)
+	private Boolean isPinned;
+
 	@Builder
 	public LocationEntity(String locationName, Double latitude, Double longitude, Long userId) {
 		this.locationName = locationName;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.userId = userId;
+		this.isPinned = false;
+	}
+
+	public void updatePinStatus(Boolean isPinned) {
+		this.isPinned = isPinned;
 	}
 }

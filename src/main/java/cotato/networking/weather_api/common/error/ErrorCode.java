@@ -28,7 +28,9 @@ public enum ErrorCode {
 	WEATHER_API_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "W-003", "날씨 서비스 오류"),
 
 	// Location API
-	LOCATION_NAME_DUPLICATED_EXCEPTION(HttpStatus.CONFLICT, "L-001", "이미 존재하는 위치 이름입니다.");
+	LOCATION_NAME_DUPLICATED_EXCEPTION(HttpStatus.CONFLICT, "L-001", "이미 존재하는 위치 이름입니다."),
+	LOCATION_NOT_FOUND_EXCEPTION(HttpStatus.NOT_FOUND, "L-002", "위치를 찾을 수 없습니다."),
+	LOCATION_ACCESS_DENIED_EXCEPTION(HttpStatus.FORBIDDEN, "L-003", "해당 위치에 접근할 권한이 없습니다.");
 
 	private final HttpStatus status;
 	private final String code;

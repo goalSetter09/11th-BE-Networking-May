@@ -6,13 +6,16 @@ public record LocationGetResponse(
 	Long locationId,
 	String locationName,
 	Double latitude,
-	Double longitude) {
+	Double longitude,
+	Boolean isPinned
+) {
 
 	public static LocationGetResponse from(LocationEntity locationEntity) {
 		return new LocationGetResponse(
 			locationEntity.getLocationId(),
 			locationEntity.getLocationName(),
 			locationEntity.getLatitude(),
-			locationEntity.getLongitude());
+			locationEntity.getLongitude(),
+			locationEntity.getIsPinned());
 	}
 }

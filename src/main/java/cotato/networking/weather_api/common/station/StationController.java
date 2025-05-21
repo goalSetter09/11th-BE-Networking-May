@@ -9,7 +9,7 @@ import cotato.networking.weather_api.common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/station")
+@RequestMapping("/api/station")
 @RequiredArgsConstructor
 public class StationController {
 

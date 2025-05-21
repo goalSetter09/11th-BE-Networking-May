@@ -26,52 +26,43 @@ public class DustService {
 	private final RestTemplate restTemplate;
 	private final AirKoreaProperties airKoreaProperties;
 
-	public DustDto getDustInfo(String city, String stationName) {
-		try {
-			// 한글 인코딩 처리
-			String encodedCity;
-			try {
-				encodedCity = URLEncoder.encode(city, StandardCharsets.UTF_8.toString());
-			} catch (UnsupportedEncodingException e) {
-				throw new RuntimeException("URL 인코딩 실패", e);
-			}
+	public DustDto getDustInfo(String stationName, String encodedCity) {
 
-			URI uri = UriComponentsBuilder
-				.fromHttpUrl(airKoreaProperties.getDustUrl())
-				.queryParam("serviceKey", airKoreaProperties.getServiceKey())
-				.queryParam("returnType", "json")
-				.queryParam("numOfRows", 100)
-				.queryParam("pageNo", 1)
-				.queryParam("sidoName", encodedCity)
-				.queryParam("ver", 1.0)
-				.build(true)
-				.toUri();
+		URI uri = UriComponentsBuilder
+			.fromHttpUrl(airKoreaProperties.getDustUrl())
+			.queryParam("serviceKey", airKoreaProperties.getServiceKey())
+			.queryParam("returnType", "json")
+			.queryParam("numOfRows", 100)
+			.queryParam("pageNo", 1)
+			.queryParam("sidoName", encodedCity)
+			.queryParam("ver", 1.0)
+			.build(true)
+			.toUri();
 
-			ResponseEntity<Map> res = restTemplate.exchange(uri, HttpMethod.GET, null, Map.class);
+		ResponseEntity<Map> res = restTemplate.exchange(uri, HttpMethod.GET, null, Map.class);
 
-			Map<String, Object> body = (Map<String, Object>)
-				((Map<String, Object>)res.getBody().get("response")).get("body");
-			List<Map<String, Object>> items = (List<Map<String, Object>>)body.get("items");
+		Map<String, Object> body = (Map<String, Object>)
+			((Map<String, Object>)res.getBody().get("response")).get("body");
+		List<Map<String, Object>> items = (List<Map<String, Object>>)body.get("items");
 
-			// stationName이 일치하는 단 하나의 측정소 찾기
-			Map<String, Object> station = items.stream()
-				.filter(i -> stationName.equals(i.get("stationName")))
-				.findFirst()
-				.orElseThrow(() -> new AppException(ErrorCode.STATION_NOT_FOUND));
-
-			// DTO 변환 후 리턴
-			return DustDto.builder()
-				.stationName((String)station.get("stationName"))
-				.dataTime((String)station.get("dataTime"))
-				.pm10Value((String)station.get("pm10Value"))
-				.pm10Grade((String)station.get("pm10Grade"))
-				.pm25Value((String)station.get("pm25Value"))
-				.pm25Grade((String)station.get("pm25Grade"))
-				.build();
-
-		} catch (AppException e) {
-			log.error("Exception : {}", e.getStackTrace()[0]);
+		if (items == null || items.isEmpty()) {
 			throw new AppException(ErrorCode.DUST_FETCH_FAILURE);
 		}
+
+		// stationName이 일치하는 단 하나의 측정소 찾기
+		Map<String, Object> station = items.stream()
+			.filter(i -> stationName.equals(i.get("stationName")))
+			.findFirst()
+			.orElseThrow(() -> new AppException(ErrorCode.STATION_NOT_FOUND));
+
+		// DTO 변환 후 리턴
+		return DustDto.builder()
+			.stationName((String)station.get("stationName"))
+			.dataTime((String)station.get("dataTime"))
+			.pm10Value((String)station.get("pm10Value"))
+			.pm10Grade((String)station.get("pm10Grade"))
+			.pm25Value((String)station.get("pm25Value"))
+			.pm25Grade((String)station.get("pm25Grade"))
+			.build();
 	}
 }

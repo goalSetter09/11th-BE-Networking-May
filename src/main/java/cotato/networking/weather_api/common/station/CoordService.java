@@ -16,10 +16,7 @@ public class CoordService {
 		CoordinateTransformFactory coordinateTransformFactory = new CoordinateTransformFactory();
 
 		var wgs84 = crsFactory.createFromName("EPSG:4326");
-		var koreaTm = crsFactory.createFromParameters(
-			"KOREA_TM",
-			"+proj=tmerc +lat_0=38 +lon_0=127.5 +k=0.9996 "
-				+ "+x_0=200000 +y_0=500000 +ellps=GRS80 +units=m +no_defs");
+		var koreaTm = crsFactory.createFromName("EPSG:5174");   // ← 핵심 수정
 
 		transform = coordinateTransformFactory.createTransform(wgs84, koreaTm);
 	}

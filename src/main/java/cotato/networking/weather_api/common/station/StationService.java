@@ -27,32 +27,34 @@ public class StationService {
 
 	public StationDto nearestStation(double lat, double lon) {
 
-		try {
-			TmCoord tm = coordService.toTm(lat, lon);
+		TmCoord tm = coordService.toTm(lat, lon);
 
-			URI uri = UriComponentsBuilder
-				.fromHttpUrl(airKoreaProperties.getStationUrl())
-				.queryParam("serviceKey", airKoreaProperties.getServiceKey())
-				.queryParam("returnType", "json")
-				.queryParam("tmX", tm.getX())
-				.queryParam("tmY", tm.getY())
-				.queryParam("ver", 1.1)
-				.build(true)
-				.toUri();
+		URI uri = UriComponentsBuilder
+			.fromHttpUrl(airKoreaProperties.getStationUrl())
+			.queryParam("serviceKey", airKoreaProperties.getServiceKey())
+			.queryParam("returnType", "json")
+			.queryParam("tmX", tm.getX())
+			.queryParam("tmY", tm.getY())
+			.queryParam("ver", 1.1)
+			.build(true)
+			.toUri();
 
-			Map<?, ?> json = restTemplate.getForObject(uri, Map.class);
-			Map<?, ?> body = (Map<?, ?>)((Map<?, ?>)json.get("response")).get("body");
-			Map<?, ?> first = ((List<Map<?, ?>>)body.get("items")).get(0);
+		Map<?, ?> json = restTemplate.getForObject(uri, Map.class);
+		Map<?, ?> body = (Map<?, ?>)((Map<?, ?>)json.get("response")).get("body");
 
-			return StationDto.builder()
-				.stationName((String)first.get("stationName"))
-				.stationCode((String)first.get("stationCode"))
-				.address((String)first.get("addr"))
-				.distanceTm(((Number)first.get("tm")).doubleValue())
-				.build();
-		} catch (AppException e) {
-			log.error("Exception : {}", e.getStackTrace()[0]);
+		// 관측소들이 가까운 순으로 정렬되어 리스트로 반환되므로 첫 번째 원소만 가져옴
+		Map<?, ?> nearStation = ((List<Map<?, ?>>)body.get("items")).get(0);
+
+		if (nearStation == null || nearStation.isEmpty()) {
 			throw new AppException(ErrorCode.STATION_FETCH_FAILURE);
 		}
+
+		return StationDto.builder()
+			.stationName((String)nearStation.get("stationName"))
+			.stationCode((String)nearStation.get("stationCode"))
+			.address((String)nearStation.get("addr"))
+			.distanceTm(((Number)nearStation.get("tm")).doubleValue())
+			.build();
+
 	}
 }

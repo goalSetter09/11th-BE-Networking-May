@@ -19,3 +19,8 @@ spring:
 
 swagger:
   url: ${SWAGGER_URL}
+
+airkorea:
+  dust-url: ${DUST_URL}
+  station-url: ${STATION_URL}
+  service-key: ${AIRKOREA_SERVICE_KEY}   # 환경변수에서 주입
